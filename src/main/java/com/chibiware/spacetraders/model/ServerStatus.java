@@ -1,12 +1,14 @@
 package com.chibiware.spacetraders.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ServerStatus {
     private String status;
     private String version;
     private String resetDate;
 
-    public ServerStatus() {
-    }
+    public ServerStatus() {}
 
     public String getStatus() {
         return status;
