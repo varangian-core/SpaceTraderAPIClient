@@ -1,17 +1,28 @@
 package com.chibiware.spacetraders;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import com.chibiware.spacetraders.model.ServerStatus;
+
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        SpaceTradersClient client = new SpaceTradersClient();
+        try {
+            // 1) Check server status
+            ServerStatus status = client.getServerStatus();
+            System.out.println("Server status: " + status.getStatus());
+            System.out.println("Server version: " + status.getVersion());
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+            // 2) Register your agent
+            //    WARNING: This can only be done once per reset or with a new unique symbol each time.
+            String token = client.registerAgent("MYAGENT123", "COSMIC", null);
+            System.out.println("Registration succeeded, token: " + token);
+
+            // 3) Call an authenticated endpoint
+            String agentDetails = client.getMyAgent();
+            System.out.println("Agent details:\n" + agentDetails);
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
